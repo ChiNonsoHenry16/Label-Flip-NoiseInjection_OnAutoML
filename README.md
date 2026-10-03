@@ -108,9 +108,3 @@ Clean Samples            Clean + Perturbed Samples
                   │
                   ▼
           Robustness Analysis
-
-@article{nwokoye2026onlineautoml,
-  title={Online AutoML: Evaluating Poisoning Attacks on Adversarial Training Defense Strategy in IoT Networks},
-  author={Nwokoye, Chukwunonso Henry and El-Khatib, Khalil and Yang, Li},
-  year={2026}
-}
