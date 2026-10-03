@@ -109,45 +109,8 @@ Clean Samples            Clean + Perturbed Samples
                   ▼
           Robustness Analysis
 
-
----
-
-##  Dataset
-
-The experiments use the IoTID20 dataset, which is designed for anomalous activity detection in IoT networks.
-
-The dataset undergoes automated preprocessing before being used by the online AutoML pipeline.
-
-The preprocessing includes:
-
-Identification and encoding of categorical variables.
-Handling of infinite and missing values.
-Statistical assessment of feature distributions.
-Z-score normalization for approximately Gaussian features.
-Min-max normalization for non-Gaussian features.
-Feature selection based on LightGBM feature importance.
-Removal of highly correlated features.
-
-Features with strong pairwise Pearson correlation were reduced using the criterion:
-
-r > 0.9
-
-Only one representative feature was retained from each highly correlated feature group.
-
-Poisoning Attacks
-
-Two poisoning attacks are evaluated.
-
-Label-Flip Poisoning
-
-Label-flip poisoning changes the labels of selected training samples to another class.
-
-The attack modifies the label information while leaving the feature values unchanged.
-
-This represents a traditional dirty-label poisoning attack.
-
-Noise-Injection Poisoning
-
-Noise injection modifies the feature values of selected training samples while preserving their original labels.
-
-Random uniform adversarial noise is introduced into the feature space. Each feature is modified by a stochastic value within approximately ±10% of its range, while remaining constrained to its valid domain.
+@article{nwokoye2026onlineautoml,
+  title={Online AutoML: Evaluating Poisoning Attacks on Adversarial Training Defense Strategy in IoT Networks},
+  author={Nwokoye, Chukwunonso Henry and El-Khatib, Khalil and Yang, Li},
+  year={2026}
+}
