@@ -1,4 +1,4 @@
-# Feature-Space and Label-Flip Poisoning Attacks on Adversarial Training Defenses
+# Label-Flip and Noise Injection Poisoning Attacks on Adversarial Training Defenses for IoT Networks
 
 [![DOI](https://img.shields.io/badge/preprint-arXiv%3Axxxx.xxxxx-blue.svg)](https://arxiv.org/abs/xxxx.xxxxx) 
 <!-- Uncomment if your paper is on arXiv --><!-- Remove if not relevant -->
@@ -7,7 +7,7 @@
 
 This repository contains the code and experimental results for our paper:
 
-**"Feature-Space and Label-Flip Poisoning Attacks on Adversarial Training Defenses"**
+**"Online AutoML: Evaluating Poisoning Attacks on Adversarial Training Defense Strategy in IoT Networks"**
 
 Our work explores the vulnerability of online/streaming classifiers—especially tree-based models and ensembles—to two types of poisoning attacks (label flip and feature-space noise) and evaluates how adversarial training and drift detection interact as defenses. We combine an AutoML pipeline with a broad experimental framework for reproducibility and comparative benchmarking.
 
