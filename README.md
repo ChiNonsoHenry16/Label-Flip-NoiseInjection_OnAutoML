@@ -48,6 +48,16 @@ The study investigates:
 
 ---
 
+# Main Contributions
+
+- **AutoML pipeline** for feature engineering, imputation, normalization, and feature selection.
+- **Label-flip (dirty-label) poisoning**: randomly flips sample labels to simulate adversarial contamination.
+- **Noise injection (clean-label) poisoning**: applies uniform adversarial noise to every feature, attacking the data distribution.
+- **Adversarial Training (AT) defense**: model retraining using adversarially-perturbed samples at every batch.
+- **Online concept drift detection** via EDDM, DDM, and ADWIN.
+- **Evaluation on IoT20 dataset** using a variety of River-stream classifiers: HoeffdingTree, HoeffdingAdaptiveTree, AdaptiveRandomForest, LeveragingBagging, SRPClassifier, MondrianTree.
+- **Comprehensive analysis of drift/poison overlap and AT-vs-naive robustness.**
+
 ## Experimental Framework
 
 The proposed experimental framework follows this workflow:
@@ -108,3 +118,7 @@ Clean Samples            Clean + Perturbed Samples
                   │
                   ▼
           Robustness Analysis
+
+
+
+
