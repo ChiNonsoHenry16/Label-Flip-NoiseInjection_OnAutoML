@@ -1,36 +1,153 @@
-# Label-Flip and Noise Injection Poisoning Attacks on Adversarial Training Defenses for IoT Networks
+# Online AutoML: Evaluating Poisoning Attacks on Adversarial Training Defense Strategy in IoT Networks
 
-[![DOI](https://img.shields.io/badge/preprint-arXiv%3Axxxx.xxxxx-blue.svg)](https://arxiv.org/abs/xxxx.xxxxx) 
-<!-- Uncomment if your paper is on arXiv --><!-- Remove if not relevant -->
+This repository contains the implementation, experimental results, and supplementary materials for the research paper:
 
-## Overview
+> **Online AutoML: Evaluating Poisoning Attacks on Adversarial Training Defense Strategy in IoT Networks**
 
-This repository contains the code and experimental results for our paper:
+**Authors:**  
+Chukwunonso Henry Nwokoye, Khalil El-Khatib, and Li Yang
 
-**"Online AutoML: Evaluating Poisoning Attacks on Adversarial Training Defense Strategy in IoT Networks"**
+**Affiliations:**  
+Faculty of Business and Information Technology, Ontario Tech University, Oshawa, Ontario, Canada  
+Department of Computer Science, Alex Ekwueme Federal University, Nigeria
 
-Our work explores the vulnerability of online/streaming classifiers—especially tree-based models and ensembles—to two types of poisoning attacks (label flip and feature-space noise) and evaluates how adversarial training and drift detection interact as defenses. We combine an AutoML pipeline with a broad experimental framework for reproducibility and comparative benchmarking.
+---
 
-## Main Contributions
+## Abstract
 
-- **AutoML pipeline** for feature engineering, imputation, normalization, and feature selection.
-- **Label-flip (dirty-label) poisoning**: randomly flips sample labels to simulate adversarial contamination.
-- **Feature-space (clean-label) poisoning**: applies uniform noise injection to every feature, attacking the data distribution.
-- **Adversarial Training (AT) defense**: model retraining using adversarially-perturbed samples at every batch.
-- **Online concept drift detection** via EDDM, DDM, and ADWIN.
-- **Evaluation on IoT and CIC datasets** using a variety of River-stream classifiers: HoeffdingTree, HoeffdingAdaptiveTree, AdaptiveRandomForest, LeveragingBagging, SRPClassifier, MondrianTree.
-- **Comprehensive analysis of drift/poison overlap and AT-vs-naive robustness.**
+Machine learning (ML)-powered poisoning attacks are adversarial techniques in which an attacker intentionally inserts, corrupts, or alters training data to distort the learning process. In streaming environments, these attacks present a significant threat because online models continuously update using incoming data.
 
-## File Structure
+This study evaluates the effectiveness of **adversarial training (AT)** against two poisoning attacks—**label flip** and **noise injection**—within an online AutoML pipeline for Internet of Things (IoT) networks.
 
-- `experiments/main.py` ... Main script for running experiments (see below)
-- `online_automl/poisoning.py`, `train.py`, `preprocessing.py`, `drift.py` ... Modular utility code
-- `data/IoT_2020_b_0.01.csv`, `data/cic_0.01km.csv` ... Datasets (not included due to size, download as needed)
+Five streaming-capable classifiers are evaluated:
 
-## Usage
+- Hoeffding Tree (HT)
+- Leveraging Bagging (LB)
+- Streaming Random Patches (SRP)
+- Hoeffding Adaptive Tree (HAT)
+- Adaptive Random Forest (ARF)
 
-### 1. Clone the Repo
+The experiments compare naive and adversarially trained models using accuracy, precision, recall, and F1-score. The study also evaluates the behavior of three concept-drift detectors:
 
-```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+- Early Drift Detection Method (EDDM)
+- Drift Detection Method (DDM)
+- Adaptive Windowing (ADWIN)
+
+At the maximum poisoning rate of **1.0**, AT-SRP achieved the highest F1-score against label-flip poisoning (**0.904**), while AT-LB achieved the highest F1-score against noise-injection poisoning (**0.933**).
+
+---
+
+## Research Objectives
+
+The study investigates:
+
+1. The impact of poisoning attacks on online AutoML classifiers operating on IoT data streams.
+2. The effectiveness of adversarial training as a defense against poisoning attacks.
+3. The behavior of concept-drift detectors under poisoned streaming conditions.
+4. The relationship between detected concept drift and poisoned samples.
+
+---
+
+## Experimental Framework
+
+The proposed experimental framework follows this workflow:
+
+```text
+IoTID20 Traffic
+      │
+      ▼
+Streaming Samples
+      │
+      ▼
+Online AutoML
+      │
+      ├── Auto-Encoding
+      ├── Auto-Imputation
+      ├── Auto-Normalization
+      └── Auto-Feature Engineering
+      │
+      ▼
+Streaming Classifiers
+      │
+      ├── Hoeffding Tree
+      ├── Leveraging Bagging
+      ├── SRPClassifier
+      ├── Hoeffding Adaptive Tree
+      └── Adaptive Random Forest
+      │
+      ├───────────────────────┐
+      ▼                       ▼
+Naive Models             AT Models
+Clean Samples            Clean + Perturbed Samples
+      │                       │
+      └───────────┬───────────┘
+                  ▼
+          Poisoning Attacks
+                  │
+          ┌───────┴────────┐
+          ▼                ▼
+     Label Flip      Noise Injection
+          │                │
+          └───────┬────────┘
+                  ▼
+        Performance Evaluation
+                  │
+       ┌──────────┼──────────┐
+       ▼          ▼          ▼
+   Accuracy    Precision   Recall/F1
+                  │
+                  ▼
+           Drift Detection
+                  │
+        ┌─────────┼─────────┐
+        ▼         ▼         ▼
+      EDDM       DDM      ADWIN
+                  │
+                  ▼
+         Drift-Poison Overlap
+                  │
+                  ▼
+          Robustness Analysis
+
+
+---
+
+##  Dataset
+
+The experiments use the IoTID20 dataset, which is designed for anomalous activity detection in IoT networks.
+
+The dataset undergoes automated preprocessing before being used by the online AutoML pipeline.
+
+The preprocessing includes:
+
+Identification and encoding of categorical variables.
+Handling of infinite and missing values.
+Statistical assessment of feature distributions.
+Z-score normalization for approximately Gaussian features.
+Min-max normalization for non-Gaussian features.
+Feature selection based on LightGBM feature importance.
+Removal of highly correlated features.
+
+Features with strong pairwise Pearson correlation were reduced using the criterion:
+
+r > 0.9
+
+Only one representative feature was retained from each highly correlated feature group.
+
+Poisoning Attacks
+
+Two poisoning attacks are evaluated.
+
+Label-Flip Poisoning
+
+Label-flip poisoning changes the labels of selected training samples to another class.
+
+The attack modifies the label information while leaving the feature values unchanged.
+
+This represents a traditional dirty-label poisoning attack.
+
+Noise-Injection Poisoning
+
+Noise injection modifies the feature values of selected training samples while preserving their original labels.
+
+Random uniform adversarial noise is introduced into the feature space. Each feature is modified by a stochastic value within approximately ±10% of its range, while remaining constrained to its valid domain.
